@@ -7,6 +7,8 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 use Database\Seeders\GenreSeeder;
+use Database\Seeders\PermissionSeeder;
+use Database\Seeders\RoleSeeder;
 use App\Models\User;
 
 class GenreTest extends TestCase
@@ -19,8 +21,11 @@ class GenreTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->token = $this->authenticate();
         $this->seed(GenreSeeder::class);
+        $this->seed(PermissionSeeder::class);
+        $this->seed(RoleSeeder::class);
+        $this->token = $this->authenticate();
+       
     }
 
     protected function authenticate(){
@@ -30,7 +35,7 @@ class GenreTest extends TestCase
             'password' => 'testtest',
             'email' => 'joeDoe@test.com',
             'password' => Hash::make('testtest')
-        ]);
+        ])->assignRole('librarian');
 
         $body =[
             'email' => 'joeDoe@test.com',

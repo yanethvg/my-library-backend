@@ -15,7 +15,7 @@ class BookFactory extends Factory
             'author' => $this->faker->name,
             'genre_id' => $this->faker->randomElement($genresIds),
             'year_published' => $this->faker->year,
-            'stock' => $this->faker->numberBetween(0, 100)
+            'stock' => $this->faker->numberBetween(5, 100)
         ];
     }
 }
