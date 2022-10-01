@@ -49,7 +49,6 @@ class GenreTest extends TestCase
         $response = $this->withHeaders([
             'Authorization' => 'Bearer '. $this->token,
             ])->json('get', '/api/genres', ['Accept' => 'application/json']);
-        
 
         $response->assertStatus(200);
 
