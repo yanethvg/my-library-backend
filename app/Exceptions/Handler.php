@@ -7,6 +7,7 @@ use Throwable;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Spatie\Permission\Exceptions\UnauthorizedException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -49,6 +50,11 @@ class Handler extends ExceptionHandler
         $this->renderable(
             function (UnauthorizedException $e) { 
                 return response()->json(["message" => "You are not authorized to access this resource"], 403); 
+            }
+        );
+        $this->renderable(
+            function (MethodNotAllowedHttpException $e) { 
+                return response()->json(["message" => "Method not allowed"], 405); 
             }
         );
         
