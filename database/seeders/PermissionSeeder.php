@@ -25,6 +25,6 @@ class PermissionSeeder extends Seeder
         // complementary resources
         Permission::create(['name' => 'genres.index']);
         Permission::create(['name' => 'roles.index']);
-        Permission::create(['name' => 'users.create']);
+        Permission::create(['name' => 'users.store']);
     }
 }

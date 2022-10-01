@@ -10,9 +10,12 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\RoleController;
 
-Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
+// register users
+Route::post('/register', [AuthController::class, 'register'])->middleware(['auth:sanctum','permission:users.store']);
+
 
 // genres
 Route::group(['prefix' => 'genres','middleware' => ['auth:sanctum']],function () {
@@ -34,7 +37,10 @@ Route::group(['prefix' => 'students' , 'middleware' => ['auth:sanctum']],functio
     Route::get('/books', [StudentController::class, 'books'])->middleware('permission:students.books');
 });
 
+//roles
 Route::group(['prefix' => 'roles' , 'middleware' => ['auth:sanctum']],function () {
     Route::get('/', [RoleController::class, 'index'])->middleware('permission:roles.index');
 });
+
+
 

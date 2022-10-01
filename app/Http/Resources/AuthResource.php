@@ -16,7 +16,7 @@ class AuthResource extends JsonResource
     {
         return [
             'full_name' => $this->first_name. ' ' . $this->last_name,
-            'email' => $this->email
+            'email' => $this->email,
         ];
     }
 }

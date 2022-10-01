@@ -22,7 +22,7 @@ class RoleSeeder extends Seeder
             'genres.index',
             'roles.index',
             'books.return',
-            'users.create',
+            'users.store',
             'students.index',
         ]);
         $role = Role::create(['name' => 'student']);
