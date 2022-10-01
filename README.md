@@ -1,64 +1,68 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# My Library Backend
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+  
+## Description
+    Create a small university library system where students can check out physical books with the following functionality.
+    There would be 2 roles: Student and Librarian.
 
-## About Laravel
+    The flow of the app should be this:
+    The student can see the list of all the books that exist in the library. He can filter or search by title, author or genre. Once a book is selected to see its details, you can see if there are available copies of this book (in stock). If so, the student can request the check out for this book and the stock for that book will decrease.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+    The student can see all the books he has requested for check out. Once the student has used the book, he will return it to the library. For this, the librarian can look for people that has check out books and then he can mark that record/book as returned, that way the stock of that
+    book will increase.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+    The Librarian isin charge of adding new users with the following information: First name, Last name, email and role.
+    Also, the Librarian can add new books with the following information: Title, Author, Published Year and Genre.
+  
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation
 
-## Learning Laravel
+  
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+In order to run the project we will need the following software:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+|  Software |  Version   |  Description                       |
+|-----------|------------|----------------------------------- |
+| Docker    | >=20.10    | Required to run docker containers  |
+| PHP       |  ^8.0      | Required to install composer       |
+| Composer  |  ^2.0      | Required to install dependencies and install sails |
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+  Note: once we have sails instailed this will mount all needed for PostgresSQL (dev database and testing database) and PHP
+  
 
-### Premium Partners
+## Usage
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### Development  
 
-## Contributing
+To install project backend API we should follow the steps once we have install prerequesites and we are on the root folder of the project.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+  
+```bash
+composer install
+cp .env.example .env
+```
+  
+  Then you can fill  enviroment variables attributes, required ones for these project are `DB_DATABASE`,  `DB_USERNAME`,  `DB_PASSWORD`  on .env file, you can fill these enviroment variables with your custom ones, docker wil generate the containers using the variables you choose
 
-## Code of Conduct
+Then we will run:
+```bash
+./vendor/bin/sail up
+```
+  Once the containers are running we can generate the application key 
+```bash
+./vendor/bin/sail artisan key:generate
+```  
+  Now we can run `./vendor/bin/sail  artisan migrate:refresh` to create database tables and then we can also run `/vendor/bin/sail artisan db:seed` to populate with seeders the tables already created
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Run tests
+To run test we only need to run `./vendor/bin/sail artisan test` 
+If you need to get a coverage report you can run the following  command:
 
-## Security Vulnerabilities
+ `sail php artisan test --coverage-html <path>` 
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+ where path is where you want to store the html coverage report
 
-## License
+## Documentation
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Click the next link to see postman API docs: [API BACKEND POSTMAN](https://documenter.getpostman.com/view/7984452/2s83tDosQj)
