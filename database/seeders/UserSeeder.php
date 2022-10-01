@@ -16,6 +16,8 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+
+
         $roles = Role::all();
         $librarian = $roles->where('name', 'librarian')->first();
         $student = $roles->where('name', 'student')->first();
@@ -35,5 +37,11 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('secret1234')
         ])->assignRole($student);
+
+        $users = User::factory()->count(10)->create();
+        
+        foreach ($users as $user) {
+            $user->assignRole($roles->random());
+        }
     }
 }

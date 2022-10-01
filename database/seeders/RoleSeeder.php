@@ -18,7 +18,7 @@ class RoleSeeder extends Seeder
         $role->givePermissionTo([
             'books.index',
             'books.show',
-            'books.create',
+            'books.store',
             'genres.index',
             'roles.index',
             'users.create',
@@ -29,6 +29,7 @@ class RoleSeeder extends Seeder
             'books.index',
             'books.show',
             'books.checkout',
+            'books.return',
             'students.books',
         ]);
     }

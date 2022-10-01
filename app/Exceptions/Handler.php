@@ -6,6 +6,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
 class Handler extends ExceptionHandler
 {
@@ -45,6 +46,11 @@ class Handler extends ExceptionHandler
                 return response()->json(["message" => "Endpoint not found"], 404); 
             }
         );
+        $this->renderable(
+            function (UnauthorizedException $e) { 
+                return response()->json(["message" => "You are not authorized to access this resource"], 403); 
+            }
+        );
+        
     }
-    
 }

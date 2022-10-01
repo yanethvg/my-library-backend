@@ -16,7 +16,7 @@ class PermissionSeeder extends Seeder
     {
         Permission::create(['name' => 'books.index']);
         Permission::create(['name' => 'books.show']);
-        Permission::create(['name' => 'books.create']);
+        Permission::create(['name' => 'books.store']);
         Permission::create(['name' => 'books.checkout']);
         Permission::create(['name' => 'books.return']);
 

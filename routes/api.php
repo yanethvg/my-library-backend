@@ -14,14 +14,14 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanct
 
 // genres
 Route::group(['prefix' => 'genres','middleware' => ['auth:sanctum']],function () {
-    Route::get('/', [GenreController::class, 'index']);
+    Route::get('/', [GenreController::class, 'index'])->middleware('permission:genres.index');
 });
 
 // books
 Route::group(['prefix' => 'books','middleware' => ['auth:sanctum']],function () {
-    Route::get('/', [BookController::class, 'index']);
-    Route::get('/{id}', [BookController::class, 'show']);
-    Route::post('/', [BookController::class, 'store']);
-    Route::post('/{id}/borrow', [BookController::class, 'borrow']);
-    Route::post('/{id}/return', [BookController::class, 'return']);
+    Route::get('/', [BookController::class, 'index'])->middleware('permission:books.index');
+    Route::get('/{id}', [BookController::class, 'show'])->middleware('permission:books.show');
+    Route::post('/', [BookController::class, 'store'])->middleware('permission:books.store');
+    Route::post('/{id}/borrow', [BookController::class, 'borrow'])->middleware('permission:books.checkout');
+    Route::post('/{id}/return', [BookController::class, 'return'])->middleware('permission:books.return');
 });
