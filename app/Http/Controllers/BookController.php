@@ -29,4 +29,41 @@ class BookController extends Controller
         $book = Book::create($request->all());
         return new BookResource($book);
     }
+    public function borrow($id)
+    {
+        $book = Book::findOrFail($id);
+        if ($book->stock == 0) {
+            return response()->json([
+                'message' => 'Book is out of stock'
+            ], 400);
+        }
+        if ($book->users()->where('user_id', auth()->user()->id)->exists()) {
+            return response()->json([
+                'message' => 'You already borrowed this book'
+            ], 400);
+        }
+        $book->stock = $book->stock - 1;
+        $book->save();
+        $book->users()->attach(auth()->user()->id);
+        return [
+            'message' => 'Book borrowed successfully',
+            'book' => new BookResource($book)
+        ];
+    }
+    public function return($id)
+    {
+        $book = Book::findOrFail($id);
+        if (!$book->users()->where('user_id', )->exists()) {
+            return response()->json([
+                'message' => 'You have not borrowed this book'
+            ], 400);
+        }
+        $book->stock = $book->stock + 1;
+        $book->save();
+        $book->users()->detach(auth()->user()->id);
+        return [
+            'message' => 'Book returned successfully',
+            'book' => new BookResource($book)
+        ];
+    }
 }
