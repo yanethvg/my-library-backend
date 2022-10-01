@@ -22,4 +22,6 @@ Route::group(['prefix' => 'books','middleware' => ['auth:sanctum']],function () 
     Route::get('/', [BookController::class, 'index']);
     Route::get('/{id}', [BookController::class, 'show']);
     Route::post('/', [BookController::class, 'store']);
+    Route::post('/{id}/borrow', [BookController::class, 'borrow']);
+    Route::post('/{id}/return', [BookController::class, 'return']);
 });

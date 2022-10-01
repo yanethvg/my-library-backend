@@ -26,7 +26,7 @@ class CreateBookRequest extends FormRequest
         return [
             'title' => 'required|string',
             'author' => 'required|string',
-            'genre_id' => 'required|integer',
+            'genre_id' => 'exists:genres,id|required|integer',
             'year_published' => 'required|string',
             'stock' => 'required|integer'
         ];

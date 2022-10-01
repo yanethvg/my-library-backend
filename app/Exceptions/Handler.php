@@ -5,6 +5,8 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -37,5 +39,12 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+        // add for showing 404 
+        $this->renderable(
+            function (NotFoundHttpException $e) { 
+                return response()->json(["message" => "Endpoint not found"], 404); 
+            }
+        );
     }
+    
 }
