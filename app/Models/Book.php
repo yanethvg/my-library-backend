@@ -41,4 +41,9 @@ class Book extends Model
         if ($author)
             return $query->where('author', 'ilike', "%$author%");
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }
