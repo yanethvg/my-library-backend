@@ -53,4 +53,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Book::class, 'books_users');
     }
+
+    public function scopeFullName($query, $q)
+    {
+        if ($q)
+            $query->where('first_name', 'ILIKE', "%$q%")->orWhere('last_name', 'ILIKE', "%$q%");
+    }
 }

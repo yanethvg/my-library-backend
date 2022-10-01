@@ -50,17 +50,17 @@ class BookController extends Controller
             'book' => new BookResource($book)
         ];
     }
-    public function return($id)
+    public function return($id, $student_id)
     {
         $book = Book::findOrFail($id);
-        if (!$book->users()->where('user_id', )->exists()) {
+        if (!$book->users()->where('user_id', $student_id)->exists()) {
             return response()->json([
                 'message' => 'You have not borrowed this book'
             ], 400);
         }
         $book->stock = $book->stock + 1;
         $book->save();
-        $book->users()->detach(auth()->user()->id);
+        $book->users()->detach($student_id);
         return [
             'message' => 'Book returned successfully',
             'book' => new BookResource($book)

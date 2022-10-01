@@ -413,7 +413,8 @@ class BookTest extends TestCase
     public function test_wrong_get_book_with_bad_id()
     {
         $token = $this->authenticate(false);
-        $response = $this->json('GET', '/api/books/200', [], [
+        $book = Book::factory()->create();
+        $response = $this->json('GET', '/api/books/'.($book->id + 1), [], [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token
         ]);
@@ -432,106 +433,6 @@ class BookTest extends TestCase
         ]);
 
         $response->assertStatus(401);
-        $response->assertJsonStructure([
-            'message'
-        ]);
-    }
-
-    public function test_book_can_be_borrow()
-    {
-        $token = $this->authenticate(false);
-        $this->seed(GenreSeeder::class);
-        $book = Book::factory()->create();
-        
-        $response = $this->withHeaders([
-            'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $token
-        ])->json('POST', '/api/books/'.$book->id.'/borrow');
-        
-
-        $response->assertStatus(200);
-       
-        $response->assertJsonStructure([
-            'message',
-            'book' => [
-                'id',
-                'title',
-                'author',
-                'genre' => [
-                    'id',
-                    'name',
-                ],
-                'stock',
-                'year_published',
-                'created_at',
-                'updated_at'
-            ]
-        ]);
-    }
-
-    public function test_book_can_not_be_borrow_without_authorization()
-    {
-        $book = Book::factory()->create();
-        $response = $this->withHeaders([
-            'Accept' => 'application/json',
-        ])->json('POST', '/api/books/'.$book->id.'/borrow');
-
-        $response->assertStatus(401);
-        $response->assertJsonStructure([
-            'message'
-        ]);
-    }
-
-    public function test_book_can_not_be_borrow_without_stock()
-    {
-        $token = $this->authenticate(false);
-        $this->seed(GenreSeeder::class);
-        $book = Book::factory()->create([
-            'stock' => 0
-        ]);
-        $response = $this->withHeaders([
-            'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $token
-        ])->json('POST', '/api/books/'.$book->id.'/borrow');
-
-        $response->assertStatus(400);
-        $response->assertJsonStructure([
-            'message'
-        ]);
-    }
-
-    public function test_book_can_not_be_borrow_user_borrowed()
-    {
-        $token = $this->authenticate(false);
-        $this->seed(GenreSeeder::class);
-        $book = Book::factory()->create();
-        $book->users()->attach($this->student->id);
-
-        $response = $this->withHeaders([
-            'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $token
-        ])->json('POST', '/api/books/'.$book->id.'/borrow');
-
-        $response->assertStatus(400);
-        $response->assertJsonStructure([
-            'message'
-        ]);
-    }
-
-    public function test_book_can_not_be_return()
-    {
-        $token = $this->authenticate(false);
-        $this->seed(GenreSeeder::class);
-        $book = Book::factory()->create();
-
-        $response = $this->withHeaders([
-            'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $token
-        ])->json('POST', '/api/books/'.$book->id.'/return');
-
-        // dd($response->getContent());
-
-        $response->assertStatus(400);
         $response->assertJsonStructure([
             'message'
         ]);
