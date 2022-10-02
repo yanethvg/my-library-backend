@@ -11,7 +11,7 @@
     The student can see all the books he has requested for check out. Once the student has used the book, he will return it to the library. For this, the librarian can look for people that has check out books and then he can mark that record/book as returned, that way the stock of that
     book will increase.
 
-    The Librarian isin charge of adding new users with the following information: First name, Last name, email and role.
+    The Librarian is in charge of adding new users with the following information: First name, Last name, email and role.
     Also, the Librarian can add new books with the following information: Title, Author, Published Year and Genre.
   
 
