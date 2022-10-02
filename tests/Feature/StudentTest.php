@@ -204,7 +204,7 @@ class StudentTest extends TestCase
         $response = $this->withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token
-        ])->json('POST', '/api/books/'.$book->id.'/'. $this->student->id.'/return');
+        ])->json('POST', '/api/books/'.$book->id.'/students/'. $this->student->id.'/return');
 
         $response->assertStatus(200);
        
@@ -234,7 +234,7 @@ class StudentTest extends TestCase
         $response = $this->withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token
-        ])->json('POST', '/api/books/'.$book->id.'/'. $this->student->id.'/return');
+        ])->json('POST', '/api/books/'.$book->id.'/students/'. $this->student->id.'/return');
 
 
         $response->assertStatus(400);
@@ -252,7 +252,7 @@ class StudentTest extends TestCase
         $response = $this->withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token
-        ])->json('POST', '/api/books/'.$book->id.'/'. $this->student->id.'/return');
+        ])->json('POST', '/api/books/'.$book->id.'/students/'. $this->student->id.'/return');
 
         $response->assertStatus(403);
         $response->assertJsonStructure([
