@@ -31,6 +31,7 @@ class RoleSeeder extends Seeder
             'books.show',
             'books.checkout',
             'students.books',
+            'genres.index',
         ]);
     }
 }
