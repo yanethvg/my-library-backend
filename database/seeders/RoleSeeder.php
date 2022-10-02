@@ -23,13 +23,14 @@ class RoleSeeder extends Seeder
             'roles.index',
             'books.return',
             'users.store',
+            'books.students',
             'students.index',
         ]);
         $role = Role::create(['name' => 'student']);
         $role->givePermissionTo([
             'books.index',
             'books.show',
-            'books.checkout',
+            'books.borrow',
             'students.books',
             'genres.index',
         ]);

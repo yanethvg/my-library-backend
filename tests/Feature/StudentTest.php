@@ -260,5 +260,82 @@ class StudentTest extends TestCase
         ]);
     }
 
+    public function test_get_books_for_student()
+    {
+        $token = $this->authenticate(true);
+        $book = Book::first();
+        $book->users()->attach($this->student->id);
+
+        $response = $this->withHeaders([
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token
+        ])->json('GET', '/api/students/'.$book->id.'/books');
+        
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'first_name',
+                    'last_name',
+                    'email',
+                    'role',
+                    'created_at',
+                    'updated_at'
+                ]
+            ],
+                'links' => [
+                    'first',
+                    'last',
+                    'prev',
+                    'next'
+                ],
+                'meta' => [
+                    'current_page',
+                    'from',
+                    'last_page',
+                    'path',
+                    'per_page',
+                    'to',
+                    'total'
+                ]
+        ]);
+    }
+
+    public function test_wrong_get_books_for_student_without_permission()
+    {
+        $token = $this->authenticate(false);
+        $book = Book::first();
+        $book->users()->attach($this->student->id);
+
+        $response = $this->withHeaders([
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token
+        ])->json('GET', '/api/students/'.$book->id.'/books');
+        
+
+        $response->assertStatus(403);
+        $response->assertJsonStructure([
+            'message'
+        ]);
+    }
+
+    public function test_wrong_get_books_for_student_without_autentication()
+    {
+        $book = Book::first();
+        $book->users()->attach($this->student->id);
+
+        $response = $this->withHeaders([
+            'Accept' => 'application/json',
+        ])->json('GET', '/api/students/'.$book->id.'/books');
+        
+
+        $response->assertStatus(401);
+        $response->assertJsonStructure([
+            'message'
+        ]);
+    }
+
 
 }

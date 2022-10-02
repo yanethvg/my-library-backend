@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\StudentResource;
 use App\Http\Resources\BookResource;
 use App\Models\User;
+use App\Models\Book;
 
 class StudentController extends Controller
 {
@@ -15,10 +16,29 @@ class StudentController extends Controller
         return StudentResource::collection($students);
     }
 
-    public function books()
+    public function books(Request $request)
     {
         $user = auth()->user();
-        $books = User::findOrFail($user->id)->books;
+        $books = Book::with('genre')
+            ->genre($request->genre)
+            ->title($request->title)
+            ->author($request->author)
+        ->whereHas('users', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->paginate(10);
         return BookResource::collection($books);
     }
+
+    public function books_student(Request $request,$id)
+    {
+        $books = Book::with('genre')
+            ->genre($request->genre)
+            ->title($request->title)
+            ->author($request->author)
+        ->whereHas('users', function ($query) use ($id) {
+            $query->where('user_id', $id);
+        })->paginate(10);
+        return BookResource::collection($books);
+    }
+
 }
