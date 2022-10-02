@@ -31,7 +31,7 @@ Route::group(['prefix' => 'books','middleware' => ['auth:sanctum']],function () 
     Route::get('/{id}', [BookController::class, 'show'])->middleware('permission:books.show');
     Route::post('/', [BookController::class, 'store'])->middleware('permission:books.store');
     Route::post('/{id}/borrow', [BookController::class, 'borrow'])->middleware('permission:books.borrow');
-    Route::post('/{id}/{student_id}/return', [BookController::class, 'return'])->middleware('permission:books.return');
+    Route::post('/{id}/students/{student_id}/return', [BookController::class, 'return'])->middleware('permission:books.return');
 });
 
 // students
