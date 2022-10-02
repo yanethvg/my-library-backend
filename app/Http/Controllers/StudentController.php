@@ -12,7 +12,7 @@ class StudentController extends Controller
 {
     public function index(Request $request)
     {
-        $students = User::role('student')->fullName($request->search)->paginate(10);
+        $students = User::role('student')->fullName($request->search)->orderBy('created_at', 'DESC')->paginate(10);
         return StudentResource::collection($students);
     }
 
