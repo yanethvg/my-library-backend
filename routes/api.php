@@ -16,6 +16,9 @@ Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanct
 // register users
 Route::post('/register', [AuthController::class, 'register'])->middleware(['auth:sanctum','permission:users.store']);
 
+// get all users
+Route::get('/users', [AuthController::class, 'index'])->middleware(['auth:sanctum','permission:users.index']);
+
 
 // genres
 Route::group(['prefix' => 'genres','middleware' => ['auth:sanctum']],function () {

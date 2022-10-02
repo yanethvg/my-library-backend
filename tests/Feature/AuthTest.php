@@ -73,14 +73,15 @@ class AuthTest extends TestCase
         $response->assertStatus(201);
 
         $response->assertJsonStructure([
-            'access_token', 
-            'token_type',
-            'user' => [
-                'full_name',
+            'data' => [
+                'id',
+                'first_name',
+                'last_name',
                 'email',
-            ],
-            'role',
-            'permissions'
+                'role',
+                'created_at',
+                'updated_at'
+            ]
         ]);
     }
     public function test_wrong_api_register_without_permission_users_store()
@@ -304,6 +305,36 @@ class AuthTest extends TestCase
         $response = $this->withHeaders([
             'Authorization' => 'Bearer '. $token,
             ])->json('POST','/api/logout');
+       
+        $response->assertUnauthorized();
+        $response->assertJsonStructure(['message']);
+    }
+
+    public function test_get_all_users() {
+        $this->withoutExceptionHandling();
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '. $this->token,
+            ])->json('GET','/api/users');
+       
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'first_name',
+                    'last_name',
+                    'email',
+                    'role',
+                    'created_at',
+                    'updated_at',
+                ]
+            ]
+        ]);
+    }
+
+    public function test_wrong_get_all_user_without_autentication()
+    {
+        $response = $this->json('GET','/api/users');
        
         $response->assertUnauthorized();
         $response->assertJsonStructure(['message']);

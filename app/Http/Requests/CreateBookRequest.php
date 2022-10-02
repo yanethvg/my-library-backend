@@ -27,8 +27,8 @@ class CreateBookRequest extends FormRequest
             'title' => 'required|string',
             'author' => 'required|string',
             'genre_id' => 'exists:genres,id|required|integer',
-            'year_published' => 'required|string',
-            'stock' => 'required|integer'
+            'year_published' => 'required|string|min:4|max:4',
+            'stock' => 'required|integer|min:1'
         ];
     }
 }

@@ -15,7 +15,7 @@ class BookController extends Controller
             ->genre($request->genre)
             ->title($request->title)
             ->author($request->author)
-            ->orderBy('title', 'desc')
+            ->orderBy('created_at', 'DESC')
             ->paginate(10);
         return BookResource::collection($books);
     }

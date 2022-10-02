@@ -25,6 +25,7 @@ class RoleSeeder extends Seeder
             'users.store',
             'books.students',
             'students.index',
+            'users.index'
         ]);
         $role = Role::create(['name' => 'student']);
         $role->givePermissionTo([
