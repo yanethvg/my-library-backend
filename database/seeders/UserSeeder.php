@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('secret1234')
         ])->assignRole($student);
 
-        $users = User::factory()->count(10)->create();
+        $users = User::factory()->count(30)->create();
         
         foreach ($users as $user) {
             $user->assignRole($roles->random());

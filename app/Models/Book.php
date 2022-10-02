@@ -27,7 +27,7 @@ class Book extends Model
     {
         if ($genre)
             return $query->whereHas('genre', function ($query) use ($genre) {
-                $query->where('name', 'ilike', "%$genre%");
+                $query->where('id', $genre);
             });
     }
     public function scopeTitle($query, $title)
